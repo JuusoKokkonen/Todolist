@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<title>Tasks</title>
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Sign Out"/>
+	</form>
+	<h1>Tasks</h1>
+	
+		<table >
+		<tr>
+			<th>Id</th>
+			<th>Task</th>
+			<th>Owner</th>
+		</tr>
+			<tr th:each="task : ${tasks}">
+			<td th:text="${task.id}"></td>
+			<td th:text="${task.description}"></td>
+			<td th:text="${task.user.username}"></td>
+				<!-- <td sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger"><a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
+				<td class="btn btn-success" ><a th:href="@{/edit/{id}(id=${book.id})}">Edit</a></td> -->
+		</tr>
+		</table>
+	<a href="/addtask" class="btn btn-success">Add task</a>
+</body>
+</html>
