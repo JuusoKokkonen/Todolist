@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
+	<title>Edit a task</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+	<div class="col-md-4">
+	<h2>Edit task</h2>
+	<div class="col-md-4">
+	<form th:object="${task}" th:action="@{/editsave/{id}(id=${id})}" action="#" method="post">
+	<input type="hidden" th:field="*{id}" class=form-control>
+		<label for="description">Task</label>
+	<input type="text" id="description" th:field="*{description}">
+	<input type="hidden" id="status" th:field="*{status}" class=form-control>
+	<input type="hidden" id="tasklist" th:field="*{tasklist}" class=form-control>
+	<input type="hidden" id="user" th:field="*{user}" class=form-control>
+	<!--  <select id="categorylist" th:field="*{category}">
+		<option th:each="category: ${categories}" th:value="${category.categoryid}" th:text="${category.name}"></option>
+	</select>-->
+	<input type="submit" class="btn btn-primary" value="Save">
+	</form>
+	</div>
+	</div>
+</body>
+</html>

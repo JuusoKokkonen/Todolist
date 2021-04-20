@@ -7,14 +7,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<form th:object="${user}" th:action="@{/registersave}" method="post">
-		<label for="username"> Username </label> 
-			<input type="text" id="username" th:field="*{username}"/>
-		<label for="passwordHash"> Password </label> 
-			<input type="password" id="password" th:field="*{passwordHash}"/>
-		
-	<input type="submit" value="Register"/>
-	</form>
+<div class="col-md-4">	
+	<form th:object="${user}" th:action="@{/registersave}" method="post">
+			<label for="username"> Username </label> 
+				<input type="text" id="username" th:field="*{username}"/>
+			<label for="passwordHash"> Password </label> 
+				<input type="password" id="password" th:field="*{passwordHash}"/>
+			
+		<input type="submit" value="Register"/>
+		</form>
+</div>
 
 </body>
 </html>

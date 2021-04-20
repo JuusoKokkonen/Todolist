@@ -18,23 +18,32 @@ public class Task {
 	private Long id;
 	
 	private String description;
+	private String status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "listId")
+	private Tasklist tasklist;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userid")
 	private User user;
 	
 	
 	// Constructors
-	public Task(String description, User user) {
+	public Task(String description, String status, User user, Tasklist tasklist) {
 		super();
 		this.description = description;
+		this.status = status;
+		this.tasklist = tasklist;
 		this.user = user;
 	}
 	
 	public Task() {
 		super();
 		this.description = null;
-		this.user = user;
+		this.status = null;
+		this.tasklist = null;
+		this.user = null;
 	}
 
 	
@@ -54,6 +63,22 @@ public class Task {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Tasklist getTasklist() {
+		return tasklist;
+	}
+
+	public void setTasklist(Tasklist tasklist) {
+		this.tasklist = tasklist;
+	}
 
 	public User getUser() {
 		return user;
@@ -62,6 +87,7 @@ public class Task {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+		
 	
 }

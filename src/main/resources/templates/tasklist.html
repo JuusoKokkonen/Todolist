@@ -9,24 +9,64 @@
 <body>
 	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 	<form th:action="@{/logout}" method="post">
-		<input type="submit" value="Sign Out"/>
+		<input class="btn btn-dark" type="submit" value="Sign Out"/>
 	</form>
 	<h1>Tasks</h1>
-	
-		<table >
-		<tr>
-			<th>Id</th>
-			<th>Task</th>
-			<th>Owner</th>
-		</tr>
-			<tr th:each="task : ${tasks}">
-			<td th:text="${task.id}"></td>
-			<td th:text="${task.description}"></td>
-			<td th:text="${task.user.username}"></td>
-				<!-- <td sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger"><a th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>
-				<td class="btn btn-success" ><a th:href="@{/edit/{id}(id=${book.id})}">Edit</a></td> -->
-		</tr>
+		<a href="/newlist" class="btn btn-success">New list</a>
+	<div style="display: flex; padding: 20px; background-color: #b3ecff; padding: 20px; size: 80%">
+		<table class="table table-striped" style="display: column; padding: 20px">
+				<tr>
+					<th>Lists</th>
+				</tr>
+				<tr>
+					<tr th:each="list : ${lists}">
+					<th th:text="${list.name}"></th>
+					<td><a class="btn btn-primary" th:href="@{/addtask/{id}(id=${list.listId})}">Add task</a></td>
+					<td><a class="btn btn-danger" th:href="@{/deletelist/{id}(id=${list.listId})}">Delete</a></td>
+					<td>
+						<table>
+							<tr>
+								<th>ToDo</th>
+							</tr>
+							<tr th:each="task : ${tasks}" th:if="${task.status == 'ToDo' && task.tasklist.listId == list.listId }">
+							<td th:text="${task.description}"></td>
+								<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
+								<td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
+								<td><a class="btn btn-primary" th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
+						</tr>
+						</table>
+					</td>
+					<td>
+						<table >
+							<tr>
+								<th>In progress</th>
+							</tr>
+							<tr th:each="task : ${tasks}" th:if="${task.status == 'InProgress' && task.tasklist.listId == list.listId }">
+							<td th:text="${task.description}"></td>
+								<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
+								<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
+								<td><a class="btn btn-primary" th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
+							</tr>
+						</table>
+					</td>
+					<td>
+						<table>
+							<tr>
+								<th>Done</th>
+							</tr>
+							<tr th:each="task : ${tasks}" th:if="${task.status == 'Done' && task.tasklist.listId == list.listId }">
+							<td th:text="${task.description}"></td>
+								<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
+								<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
+								<td><a class="btn btn-primary" th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
 		</table>
+
+	</div>
 	<a href="/addtask" class="btn btn-success">Add task</a>
 </body>
 </html>

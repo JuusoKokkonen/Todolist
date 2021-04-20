@@ -3,17 +3,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
-	<title>Addtask</title>
+	<title>New list</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 	<div class="container">
-	<h2>Add a new task</h2>
+	<h2>Add a new list</h2>
 	<div class="col-md-4">
-	<form th:object="${task}" th:action="@{/savetask}" action="#" method="post">
-		<label for="description">Description</label>
-	<input type="text" id="description" th:field="*{description}" class=form-control>
-	<input type="hidden" id="tasklist" th:field="*{tasklist}" class=form-control>
+	<form th:object="${tasklist}" th:action="@{/savelist}" action="#" method="post">
+		<label for="name">Name</label>
+	<input type="text" id="name" th:field="*{name}" class=form-control>
 	<input type="submit" class="btn btn-primary" value="Save">
 	</form>
 	</div>

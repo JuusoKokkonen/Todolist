@@ -35,7 +35,12 @@ public class User {
 	@Column
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	@JsonIgnore
-	private List<Task> tasks;		
+	private List<Tasklist> lists;
+	
+	@Column
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonIgnore
+	private List<Task> tasks;	
 	
 	// Constructors
 	public User() {
@@ -83,20 +88,30 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-
+	
 	public List<Task> getTasks() {
 		return tasks;
 	}
-
+	
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
-	}	
+	}
+
+	public List<Tasklist> getLists() {
+		return lists;
+	}
+	
+	public void setLists(List<Tasklist> lists) {
+		this.lists = lists;
+	}
+	
 	
 	//ToString
 	@Override
 	public String toString() {
 		return "User [id=" + userid + ", username=" + username + ", passwordHash=" + passwordHash + ", role=" + role + "]";
 	}
+
 	
 	
 }
