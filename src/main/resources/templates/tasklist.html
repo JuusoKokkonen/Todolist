@@ -19,14 +19,14 @@
 		<table class="table table-striped" style="display: column; border-collapse: separate; border-spacing: 0 20px"> 
 				<tr>
 					<th>List <a href="/newlist" class="btn btn-success">New list</a></th>
-					<th>ToDo</th>
-					<th>In Progress</th>
-					<th>Done</th>
+					<th><h3>ToDo</h3></th>
+					<th><h3>In Progress</h3></th>
+					<th><h3>Done</h3></th>
 				</tr>
 				<tr>
 					<tr th:each="list : ${lists}">
 					<td>
-						<table style="border-collapse: separate; border-spacing: 0 15px;">
+						<table style="border-collapse: separate; border-spacing: 0 15px; border: 1px solid black;">
 							<tr><th th:text="${list.name}"></th></tr>
 							<tr><td><a class="btn btn-primary" th:href="@{/addtask/{id}(id=${list.listId})}">Add task</a></td></tr>
 							<tr><td><a class="btn btn-danger" th:href="@{/deletelist/{id}(id=${list.listId})}">Delete</a></td></tr>
@@ -34,14 +34,14 @@
 					</td>
 					
 					<td>
-						<table>
+						<table style="border: 1px solid black;">
 							<tr>
 								<th>Task</th>
 								<th>Deadline</th>
 							</tr>
 							<tr th:each="task : ${tasks}" th:if="${task.status == 'ToDo' && task.tasklist.listId == list.listId }">
-							<td style="white-space: nowrap;" th:text="${task.description}"></td>
-							<td style="white-space: nowrap;" th:text="${task.deadline}"></td>
+							<td th:text="${task.description}"></td>
+							<td th:text="${task.deadline}"></td>
 							<td>
 								<table>
 									<tr>
@@ -56,7 +56,7 @@
 					</td>
 					
 					<td>
-						<table >
+						<table style="border: 1px solid black;">
 							<tr>
 								<th>Task</th>
 								<th>Deadline</th>
@@ -66,7 +66,7 @@
 							<td style="white-space: nowrap;" th:text="${task.deadline}"></td>
 								<td>
 								<table>
-									<tr style="border: 1px solid black;">
+									<tr>
 										<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
 										<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
 										<td class="btn btn-warning"><a th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
@@ -78,7 +78,7 @@
 					</td>
 					
 					<td>
-						<table>
+						<table  style="border: 1px solid black;">
 							<tr>
 								<th>Task</th>
 								<th>Deadline</th>

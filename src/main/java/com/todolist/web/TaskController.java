@@ -1,19 +1,14 @@
 package com.todolist.web;
 
-import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,7 +36,7 @@ public class TaskController {
 	// Frontpage
 	@RequestMapping(value="/index", method = RequestMethod.GET)
 	public String mainPage() {
-		return "index";
+		return "tasklist";
 	}
 		
 	// Tasklist page
@@ -201,10 +196,11 @@ public class TaskController {
 		}
 	}
 	
-	// Demo
+	// For demo purposes (adds 3 tasklists and fills them with a few tasks)
 	@RequestMapping(value ="/demo", method = RequestMethod.GET)
 	public String demo() {
 		User currUser = uRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		tlRepository.save(new Tasklist("Sprint 1", currUser));
 		tlRepository.save(new Tasklist("Sprint 2", currUser));
 		tlRepository.save(new Tasklist("Sprint 3", currUser));
@@ -222,7 +218,7 @@ public class TaskController {
 		tRepository.save(new Task("Fix user role bug", "InProgress", currUser, tlRepository.findByName("Sprint 3")));
 		tRepository.save(new Task("Smoke testing", " ", currUser, tlRepository.findByName("Sprint 3")));
 		tRepository.save(new Task("", " ", currUser, tlRepository.findByName("Sprint 3")));
-		return "redirect:..tasklist";
+		return "redirect:tasklist";
 	}
 	
 	
