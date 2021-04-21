@@ -216,8 +216,8 @@ public class TaskController {
 		tRepository.save(new Task("Make tests", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
 		tRepository.save(new Task("Make validation", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
 		tRepository.save(new Task("Fix user role bug", "InProgress", currUser, tlRepository.findByName("Sprint 3")));
-		tRepository.save(new Task("Smoke testing", " ", currUser, tlRepository.findByName("Sprint 3")));
-		tRepository.save(new Task("", " ", currUser, tlRepository.findByName("Sprint 3")));
+		tRepository.save(new Task("Smoke testing", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
+		tRepository.save(new Task("Customer demo", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
 		return "redirect:tasklist";
 	}
 	
