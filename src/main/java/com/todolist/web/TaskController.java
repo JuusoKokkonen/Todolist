@@ -201,23 +201,23 @@ public class TaskController {
 	public String demo() {
 		User currUser = uRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 		
-		tlRepository.save(new Tasklist("Sprint 1", currUser));
-		tlRepository.save(new Tasklist("Sprint 2", currUser));
-		tlRepository.save(new Tasklist("Sprint 3", currUser));
+		Tasklist tasklist1 = tlRepository.save(new Tasklist("Sprint 1", currUser));
+		Tasklist tasklist2 = tlRepository.save(new Tasklist("Sprint 2", currUser));
+		Tasklist tasklist3 = tlRepository.save(new Tasklist("Sprint 3", currUser));
 		
-		tRepository.save(new Task("Make Task class", "Done", currUser, tlRepository.findByName("Sprint 1")));
-		tRepository.save(new Task("Make User class", "Done", currUser, tlRepository.findByName("Sprint 1")));
-		tRepository.save(new Task("Create tasklist.html", "Done", currUser, tlRepository.findByName("Sprint 1")));
-		tRepository.save(new Task("HTML form bugfix", "InProgress", currUser, tlRepository.findByName("Sprint 1")));
-		tRepository.save(new Task("Create controller", "Done", currUser, tlRepository.findByName("Sprint 1")));
-		tRepository.save(new Task("Create API", "Done", currUser, tlRepository.findByName("Sprint 2")));
-		tRepository.save(new Task("Api tests", "InProgress", currUser, tlRepository.findByName("Sprint 2")));
-		tRepository.save(new Task("Demo to customer", "Done", currUser, tlRepository.findByName("Sprint 2")));
-		tRepository.save(new Task("Make tests", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
-		tRepository.save(new Task("Make validation", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
-		tRepository.save(new Task("Fix user role bug", "InProgress", currUser, tlRepository.findByName("Sprint 3")));
-		tRepository.save(new Task("Smoke testing", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
-		tRepository.save(new Task("Customer demo", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
+		tRepository.save(new Task("Make Task class", "Done", currUser, tasklist1));
+		tRepository.save(new Task("Make User class", "Done", currUser, tasklist1));
+		tRepository.save(new Task("Create tasklist.html", "Done", currUser, tasklist1));
+		tRepository.save(new Task("HTML form bugfix", "InProgress", currUser, tasklist1));
+		tRepository.save(new Task("Create controller", "Done", currUser, tasklist1));
+		tRepository.save(new Task("Create API", "Done", currUser, tasklist2));
+		tRepository.save(new Task("Api tests", "InProgress", currUser, tasklist2));
+		tRepository.save(new Task("Demo to customer", "Done", currUser, tasklist2));
+		tRepository.save(new Task("Make tests", "ToDo", currUser, tasklist3));
+		tRepository.save(new Task("Make validation", "ToDo", currUser, tasklist3));
+		tRepository.save(new Task("Fix user role bug", "InProgress", currUser, tasklist3));
+		tRepository.save(new Task("Smoke testing", "ToDo", currUser, tasklist3));
+		tRepository.save(new Task("Customer demo", "ToDo", currUser, tasklist3));
 		return "redirect:tasklist";
 	}
 	
