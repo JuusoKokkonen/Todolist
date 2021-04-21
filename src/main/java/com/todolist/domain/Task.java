@@ -19,6 +19,7 @@ public class Task {
 	
 	private String description;
 	private String status;
+	private String deadline;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "listId")
@@ -42,6 +43,7 @@ public class Task {
 		super();
 		this.description = null;
 		this.status = null;
+		this.deadline = null;
 		this.tasklist = null;
 		this.user = null;
 	}
@@ -71,6 +73,14 @@ public class Task {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String getDeadline() {
+		return deadline;
+	}
+	
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
+	}
 
 	public Tasklist getTasklist() {
 		return tasklist;
@@ -87,6 +97,7 @@ public class Task {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 
 		
 	

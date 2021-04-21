@@ -7,58 +7,94 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+	<div style="text-align: center">
 	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 	<form th:action="@{/logout}" method="post">
 		<input class="btn btn-dark" type="submit" value="Sign Out"/>
 	</form>
 	<h1>Tasks</h1>
-		<a href="/newlist" class="btn btn-success">New list</a>
-	<div style="display: flex; padding: 20px; background-color: #b3ecff; padding: 20px; size: 80%">
-		<table class="table table-striped" style="display: column; padding: 20px">
+
+	</div>
+	<div style="background-color: #b3ecff">
+		<table class="table table-striped" style="display: column; border-collapse: separate; border-spacing: 0 20px"> 
 				<tr>
-					<th>Lists</th>
+					<th>List <a href="/newlist" class="btn btn-success">New list</a></th>
+					<th>ToDo</th>
+					<th>In Progress</th>
+					<th>Done</th>
 				</tr>
 				<tr>
 					<tr th:each="list : ${lists}">
-					<th th:text="${list.name}"></th>
-					<td><a class="btn btn-primary" th:href="@{/addtask/{id}(id=${list.listId})}">Add task</a></td>
-					<td><a class="btn btn-danger" th:href="@{/deletelist/{id}(id=${list.listId})}">Delete</a></td>
+					<td>
+						<table style="border-collapse: separate; border-spacing: 0 15px;">
+							<tr><th th:text="${list.name}"></th></tr>
+							<tr><td><a class="btn btn-primary" th:href="@{/addtask/{id}(id=${list.listId})}">Add task</a></td></tr>
+							<tr><td><a class="btn btn-danger" th:href="@{/deletelist/{id}(id=${list.listId})}">Delete</a></td></tr>
+						</table>
+					</td>
+					
 					<td>
 						<table>
 							<tr>
-								<th>ToDo</th>
+								<th>Task</th>
+								<th>Deadline</th>
 							</tr>
 							<tr th:each="task : ${tasks}" th:if="${task.status == 'ToDo' && task.tasklist.listId == list.listId }">
-							<td th:text="${task.description}"></td>
-								<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
-								<td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
-								<td><a class="btn btn-primary" th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
+							<td style="white-space: nowrap;" th:text="${task.description}"></td>
+							<td style="white-space: nowrap;" th:text="${task.deadline}"></td>
+							<td>
+								<table>
+									<tr>
+										<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
+										<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
+										<td class="btn btn-warning"><a th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
+									</tr>
+								</table>
+							</td>
 						</tr>
 						</table>
 					</td>
+					
 					<td>
 						<table >
 							<tr>
-								<th>In progress</th>
+								<th>Task</th>
+								<th>Deadline</th>
 							</tr>
 							<tr th:each="task : ${tasks}" th:if="${task.status == 'InProgress' && task.tasklist.listId == list.listId }">
 							<td th:text="${task.description}"></td>
-								<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
-								<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
-								<td><a class="btn btn-primary" th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
+							<td style="white-space: nowrap;" th:text="${task.deadline}"></td>
+								<td>
+								<table>
+									<tr style="border: 1px solid black;">
+										<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
+										<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
+										<td class="btn btn-warning"><a th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
+									</tr>
+								</table>
+							</td>
 							</tr>
 						</table>
 					</td>
+					
 					<td>
 						<table>
 							<tr>
-								<th>Done</th>
+								<th>Task</th>
+								<th>Deadline</th>
 							</tr>
 							<tr th:each="task : ${tasks}" th:if="${task.status == 'Done' && task.tasklist.listId == list.listId }">
 							<td th:text="${task.description}"></td>
-								<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
-								<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
-								<td><a class="btn btn-primary" th:href="@{/changestatus/{id}(id=${task.id})}">--></a></td>
+							<td style="white-space: nowrap;" th:text="${task.deadline}"></td>
+								<td>
+								<table>
+									<tr>
+										<td class="btn btn-success" ><a th:href="@{/edittask/{id}(id=${task.id})}">Edit</a></td>
+										<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${task.id})}">Delete</a></td>
+										<td class="btn btn-warning"><a th:href="@{/changestatus/{id}(id=${task.id})}">X</a></td>
+									</tr>
+								</table>
+							</td>
 							</tr>
 						</table>
 					</td>
@@ -67,6 +103,5 @@
 		</table>
 
 	</div>
-	<a href="/addtask" class="btn btn-success">Add task</a>
 </body>
 </html>

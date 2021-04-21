@@ -13,6 +13,8 @@
 	<form th:object="${task}" th:action="@{/savetask}" action="#" method="post">
 		<label for="description">Description</label>
 	<input type="text" id="description" th:field="*{description}" class=form-control>
+		<label for="deadline">Deadline</label>
+	<input type="datetime-local" id="deadline" th:field="*{deadline}" class=form-control>
 	<input type="hidden" id="tasklist" th:field="*{tasklist}" class=form-control>
 	<input type="submit" class="btn btn-primary" value="Save">
 	</form>

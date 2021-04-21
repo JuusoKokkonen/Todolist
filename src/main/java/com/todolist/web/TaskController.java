@@ -67,11 +67,18 @@ public class TaskController {
 	// Save a task on addtask page
 	@RequestMapping(value = "/savetask", method = RequestMethod.POST)
 	public String saveTask(Task task) {
-		System.out.println(task);
 		String currUser = SecurityContextHolder.getContext().getAuthentication().getName();
-		System.out.println(currUser);
 		task.setUser(uRepository.findByUsername(currUser));
 		task.setStatus("ToDo");
+		System.out.println(task.getDeadline());
+		if (task.getDeadline() == "") {
+			task.setDeadline(null);
+		} else {
+			String str = task.getDeadline();
+			String deadline = str.replace("T", " ");
+			task.setDeadline(deadline);
+		}
+		
 		tRepository.save(task);
 		return "redirect:tasklist";			
 	}
@@ -79,8 +86,15 @@ public class TaskController {
 	// Delete task
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String deleteTask(@PathVariable("id") Long taskId, Model model) {
-		tRepository.deleteById(taskId);
-		return "redirect:../tasklist";
+		// Validate that current user deletes only his own tasks
+		User currUser = uRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		Task task = tRepository.findById(taskId).get();
+		if (currUser.getUserid() == task.getUser().getUserid()) {
+			tRepository.deleteById(taskId);
+			return "redirect:../tasklist";
+		} else {
+			return "authorityerror";
+		}
 	}
 	
 	// Change status
@@ -106,13 +120,27 @@ public class TaskController {
 	// Edit task
 	@RequestMapping(value = "/edittask/{id}", method = RequestMethod.GET)
 	public String editTask(@PathVariable("id") Long taskId, Model model) {
-		model.addAttribute("task", tRepository.findById(taskId));
-		return "edittask";
+		// Validate that current user edits only his own tasks
+		User currUser = uRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		Task task = tRepository.findById(taskId).get();
+		if (currUser.getUserid() == task.getUser().getUserid()) {
+			model.addAttribute("task", task);
+			return "edittask";
+		} else {
+			return "authorityerror";
+		}
 	}
 	
 	// Save edited task
 	@RequestMapping(value = "/editsave/{id}", method = RequestMethod.POST)
 	public String saveEdited(@PathVariable("id") Long taskId, Task task) {
+		if (task.getDeadline() == "") {
+			task.setDeadline(null);
+		} else {
+			String str = task.getDeadline();
+			String deadline = str.replace("T", " ");
+			task.setDeadline(deadline);
+		}
 		tRepository.save(task);
 		return "redirect:../tasklist";
 	}
@@ -136,8 +164,15 @@ public class TaskController {
 	// Delete tasklist
 	@RequestMapping(value = "/deletelist/{id}", method = RequestMethod.GET)
 	public String deleteList(@PathVariable("id") Long listId, Model model) {
-		tlRepository.deleteById(listId);
-		return "redirect:../tasklist";
+		// Validate that current user deletes his own tasklist
+		User currUser = uRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		Tasklist tasklist = tlRepository.findByListId(listId);
+		if (currUser.getUserid() == tasklist.getUser().getUserid()) {
+			tlRepository.deleteById(listId);
+			return "redirect:../tasklist";
+		} else {
+			return "authorityerror";
+		}
 	}
 	
 	// Login page
@@ -158,10 +193,37 @@ public class TaskController {
 	public String register(User user) {
 		user.setRole("USER");
 		user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-		uRepository.save(user);
-		return "redirect:login";
+		if (uRepository.findByUsername(user.getUsername()) == null) {
+			uRepository.save(user);
+			return "redirect:login?success";
+		} else {
+			return "redirect:register?error";	
+		}
 	}
 	
+	// Demo
+	@RequestMapping(value ="/demo", method = RequestMethod.GET)
+	public String demo() {
+		User currUser = uRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		tlRepository.save(new Tasklist("Sprint 1", currUser));
+		tlRepository.save(new Tasklist("Sprint 2", currUser));
+		tlRepository.save(new Tasklist("Sprint 3", currUser));
+		
+		tRepository.save(new Task("Make Task class", "Done", currUser, tlRepository.findByName("Sprint 1")));
+		tRepository.save(new Task("Make User class", "Done", currUser, tlRepository.findByName("Sprint 1")));
+		tRepository.save(new Task("Create tasklist.html", "Done", currUser, tlRepository.findByName("Sprint 1")));
+		tRepository.save(new Task("HTML form bugfix", "InProgress", currUser, tlRepository.findByName("Sprint 1")));
+		tRepository.save(new Task("Create controller", "Done", currUser, tlRepository.findByName("Sprint 1")));
+		tRepository.save(new Task("Create API", "Done", currUser, tlRepository.findByName("Sprint 2")));
+		tRepository.save(new Task("Api tests", "InProgress", currUser, tlRepository.findByName("Sprint 2")));
+		tRepository.save(new Task("Demo to customer", "Done", currUser, tlRepository.findByName("Sprint 2")));
+		tRepository.save(new Task("Make tests", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
+		tRepository.save(new Task("Make validation", "ToDo", currUser, tlRepository.findByName("Sprint 3")));
+		tRepository.save(new Task("Fix user role bug", "InProgress", currUser, tlRepository.findByName("Sprint 3")));
+		tRepository.save(new Task("Smoke testing", " ", currUser, tlRepository.findByName("Sprint 3")));
+		tRepository.save(new Task("", " ", currUser, tlRepository.findByName("Sprint 3")));
+		return "redirect:..tasklist";
+	}
 	
 	
 }
