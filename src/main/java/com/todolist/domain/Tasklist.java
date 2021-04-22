@@ -27,6 +27,7 @@ public class Tasklist {
 	private String name;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	@JoinColumn(name = "userId")
 	private User user;
 	

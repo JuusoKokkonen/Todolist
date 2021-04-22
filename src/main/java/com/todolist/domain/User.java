@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,6 +24,7 @@ public class User {
 	private Long userid;
 	
 	// unique username
+	@NotBlank(message = "name is mandatory")
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
 			
@@ -104,13 +106,16 @@ public class User {
 	public void setLists(List<Tasklist> lists) {
 		this.lists = lists;
 	}
-	
-	
+
 	//ToString
 	@Override
 	public String toString() {
-		return "User [id=" + userid + ", username=" + username + ", passwordHash=" + passwordHash + ", role=" + role + "]";
+		return "User [userid=" + userid + ", username=" + username + ", passwordHash=" + passwordHash + ", role=" + role
+				+ "]";
 	}
+	
+	
+	
 
 	
 	

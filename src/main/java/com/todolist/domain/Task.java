@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Task {
 
@@ -22,10 +24,12 @@ public class Task {
 	private String deadline;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	@JoinColumn(name = "listId")
 	private Tasklist tasklist;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	@JoinColumn(name = "userid")
 	private User user;
 	
@@ -97,6 +101,15 @@ public class Task {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	// toString
+	@Override
+	public String toString() {
+		return "Task [id=" + id + ", description=" + description + ", status=" + status + ", deadline=" + deadline
+				+ "]";
+	}
+
+	
 
 
 		
